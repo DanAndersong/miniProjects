@@ -1,10 +1,10 @@
 target/
 /out
-/META-INF
 .idea/
 .idea
 /.idea
 .repository/
+*.MF
 *.iml
 *.iws
 *.jrtc
