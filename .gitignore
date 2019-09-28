@@ -1,5 +1,8 @@
 target/
+/out/*
 /out
+out/
+out/*
 .idea/
 .idea
 /.idea
