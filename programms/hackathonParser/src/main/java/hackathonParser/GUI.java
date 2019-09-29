@@ -1,4 +1,4 @@
-package autoParser;
+package hackathonParser;
 
 import javax.swing.*;
 

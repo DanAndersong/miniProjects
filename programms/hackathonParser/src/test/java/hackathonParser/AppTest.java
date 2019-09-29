@@ -1,4 +1,4 @@
-package autoParser;
+package hackathonParser;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

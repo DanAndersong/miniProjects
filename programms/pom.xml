@@ -2,11 +2,11 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>autoParser</groupId>
-  <artifactId>autoParser</artifactId>
+  <groupId>hackathonsParser</groupId>
+  <artifactId>hackathonsParser</artifactId>
   <packaging>jar</packaging>
   <version>1.0.0</version>
-  <name>autoParser</name>
+  <name>hackathonsParser</name>
   <url>http://maven.apache.org</url>
 
 
@@ -47,7 +47,7 @@
             <archive>
               <manifest>
                 <addClasspath>true</addClasspath>
-                <mainClass>autoParser.App</mainClass>
+                <mainClass>hackathonsParser.App</mainClass>
               </manifest>
             </archive>
           </configuration>
