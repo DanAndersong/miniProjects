@@ -7,6 +7,7 @@
   <version>1</version>
   <name>hackathonParser</name>
   <url>http://maven.apache.org</url>
+
   <dependencies>
       <dependency>
           <groupId>junit</groupId>
@@ -15,19 +16,16 @@
           <scope>test</scope>
       </dependency>
       
-      
       <dependency>
           <groupId>org.jsoup</groupId>
           <artifactId>jsoup</artifactId>
-          <version>1.11.3</version>
+          <version>1.12.1</version>
       </dependency>
-      
   </dependencies>
   
   <build>
       <pluginManagement>
           <plugins>
-              <!-- Default java version was 1.5, to change the default version added this plugin -->
               <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-compiler-plugin</artifactId>
@@ -44,26 +42,6 @@
                       <encoding>UTF-8</encoding>
                   </configuration>
               </plugin>
-
-
-<!--              <plugin>-->
-<!--                  <groupId>org.apache.maven.plugins</groupId>-->
-<!--                  <artifactId>maven-dependency-plugin</artifactId>-->
-<!--                  <executions>-->
-<!--                      <execution>-->
-<!--                          <id>copy</id>-->
-<!--                          <phase>install</phase>-->
-<!--                          <goals>-->
-<!--                              <goal>copy-dependencies</goal>-->
-<!--                          </goals>-->
-<!--                          <configuration>-->
-<!--                              <outputDirectory>-->
-<!--                                  ${project.build.directory}-->
-<!--                              </outputDirectory>-->
-<!--                          </configuration>-->
-<!--                      </execution>-->
-<!--                  </executions>-->
-<!--              </plugin>-->
 
               <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
