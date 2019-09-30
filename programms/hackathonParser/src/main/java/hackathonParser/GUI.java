@@ -4,7 +4,6 @@ package hackathonParser;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -21,10 +20,9 @@ public class GUI extends JFrame {
         setSize(800, 600);
 
         JPanel centralPanel = new JPanel(new GridLayout(events.size()/3,1,0,0));
-        Box box;
-        getContentPane().setBackground(Color.WHITE);
+
         for (int i = 0, eventCount = 0; i < events.size()/3; i++) {
-            box = Box.createHorizontalBox();
+            Box box = Box.createHorizontalBox();
             box.setBorder(new EmptyBorder(5,10,5,10));
 
             //Image
@@ -55,6 +53,7 @@ public class GUI extends JFrame {
         }
 
         JScrollPane scrollPane = new JScrollPane(centralPanel);
+
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         getContentPane().add(scrollPane);
     }

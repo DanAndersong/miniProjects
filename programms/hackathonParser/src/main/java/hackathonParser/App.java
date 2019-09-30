@@ -1,11 +1,11 @@
 package hackathonParser;
 
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
 import org.jsoup.Jsoup;
 
 public class App
@@ -16,13 +16,27 @@ public class App
                 .referrer("http://www.google.com")
                 .get();
 
-        ArrayList<String> events = new ArrayList<>();
         Elements names = doc.select(".event-list-item__title");
         Elements costs = doc.select(".event-list-item__type");
         Elements info = doc.select(".event-list-item__info");
 
+        GUI gui = new GUI(parse(names, costs, info));
+        gui.setVisible(true);
+    }
 
+    private static boolean isNumeric(char charAt) {
+        try {
+            double d = Double.parseDouble(String.valueOf(charAt));
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    private static ArrayList<String> parse (Elements names, Elements costs, Elements info) {
+        ArrayList<String> events = new ArrayList<>();
         StringBuilder stringBuilder;
+
         for (int i = 0, countInfo = 0; i < names.size(); i++) {
             events.add(String.format("%s", names.get(i).text()));
 
@@ -46,19 +60,8 @@ public class App
                 }
                 stringBuilder.append(String.format("%s, ",info.get(j).text()));
             }
-            events.add(stringBuilder != null ? stringBuilder.toString().substring(0, stringBuilder.length()-2) : "");
+            events.add(!stringBuilder.toString().equals("") ? stringBuilder.toString().substring(0, stringBuilder.length()-2) : "");
         }
-
-        GUI gui = new GUI(events);
-        gui.setVisible(true);
-    }
-
-    private static boolean isNumeric(char charAt) {
-        try {
-            double d = Double.parseDouble(String.valueOf(charAt));
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
+        return events;
     }
 }
