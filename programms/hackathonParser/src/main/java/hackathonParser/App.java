@@ -1,6 +1,7 @@
 package hackathonParser;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
@@ -20,9 +21,18 @@ public class App
         Elements costs = doc.select(".event-list-item__type");
         Elements info = doc.select(".event-list-item__info");
 
-        for (int i = 0, countInfo = 0; i < names.size(); i++) {
-            StringBuilder stringBuilder = new StringBuilder();
 
+        StringBuilder stringBuilder;
+        for (int i = 0, countInfo = 0; i < names.size(); i++) {
+            events.add(String.format("%s", names.get(i).text()));
+
+            if (costs.get(i).text().split("/")[1].contains("Бесплатное")) {
+                events.add("Мероприятие бесплатное");
+            } else {
+                events.add(String.format("Цена %s", costs.get(i).text()));
+            }
+
+            stringBuilder = new StringBuilder();
             for (int j = countInfo; j < info.size(); j++) {
                 /*
                 If next element in info it's date - break.
@@ -34,12 +44,9 @@ public class App
                         break;
                     }
                 }
-                stringBuilder.append(info.get(j).text() + ", ");
+                stringBuilder.append(String.format("%s, ",info.get(j).text()));
             }
-            events.add(String.format("%s,%s, %s ",
-                    names.get(i).text(),
-                    costs.get(i).text().split("/")[1],
-                    stringBuilder.toString().trim().substring(0,stringBuilder.toString().length()-2)));
+            events.add(stringBuilder != null ? stringBuilder.toString().substring(0, stringBuilder.length()-2) : "");
         }
 
         GUI gui = new GUI(events);
