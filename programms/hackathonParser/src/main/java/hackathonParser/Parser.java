@@ -42,7 +42,7 @@ public class Parser {
         return data;
     }
 
-    public ArrayList<String> parseUrl(Elements[] element) {
+    public ArrayList<String> parseUrl(Elements element) {
         ArrayList<String> dataUrl = new ArrayList<>();
         Pattern pattern = Pattern.compile("(?<=href=\").+(?=\")");
         Matcher matcher = pattern.matcher(element.toString());
@@ -50,6 +50,7 @@ public class Parser {
         while (matcher.find()) {
             dataUrl.add("https://it-events.com" + element.toString().substring(matcher.start(), matcher.end()));
         }
+        dataUrl.forEach(System.out::println);
         return dataUrl;
     }
 

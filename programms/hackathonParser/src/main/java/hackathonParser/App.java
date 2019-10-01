@@ -16,13 +16,12 @@ public class App
         Elements[] elements = {
                 doc.select(".event-list-item__image"), //First only pictures
                 doc.select(".event-list-item__title"), //Second only title
-
                 doc.select(".event-list-item__type"),  //costs
                 doc.select(".event-list-item__info"),  //info
         };
 
         Parser parser = new Parser();
-        GUI gui = new GUI(parser.parseData(elements));
-        gui.setVisible(true);
+        GUI gui = new GUI(parser.parseData(elements), parser.parseUrl(elements[1]));
+        gui.getjFrame().setVisible(true);
     }
 }
