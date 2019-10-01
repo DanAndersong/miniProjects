@@ -11,62 +11,58 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class GUI extends JFrame {
-    private JFrame jFrame;
 
-    public GUI (ArrayList<String> events) {
+    public GUI (ArrayList<String> data) {
         super("Hackathons");
-        jFrame = new JFrame();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(800, 600);
+        JScrollPane scrollPane = new JScrollPane(getEvents(data));
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        getContentPane().add(scrollPane);
+    }
 
-        int eventQuantity = getEventQuantity(events);
-
+    private Component getEvents(ArrayList<String> data) {
+        int eventQuantity = getEventQuantity(data);
         JPanel centralPanel = new JPanel(new GridLayout(eventQuantity,1,0,0));
 
-        for (int i = 0, eventCount = 0; i < eventQuantity;) {
-            if (events.get(eventCount).equals("")){
-                eventCount++;
-                continue;
-            }
-
+        for (int i = 0, eventCount = 0; i < eventQuantity; i++) {
             Box box = Box.createHorizontalBox();
-            box.setBorder(new EmptyBorder(5,10,5,10));
+            box.setBorder(new EmptyBorder(5,10,5, 0));
 
             //Image
             BufferedImage image = null;
             try {
-                image = ImageIO.read(new URL(events.get(eventCount++)));
+                image = ImageIO.read(new URL(data.get(eventCount++)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
             assert image != null;
             box.add(new JLabel(new ImageIcon(image.getScaledInstance(140, 100, Image.SCALE_SMOOTH))));
-//            box.add(Box.createHorizontalStrut());
 
             //Event
             JPanel descriptionPanel = new JPanel(new GridLayout(3,1,0,0));
             descriptionPanel.setBorder(new EmptyBorder(0,10,0,0));
             descriptionPanel.setBackground(Color.white);
-            for (int j = 0; j < 3; j++) {
-                descriptionPanel.add(new JLabel(events.get(eventCount++)));
+
+            while (true) {
+                descriptionPanel.add(new JLabel(data.get(eventCount++)));
+                if (data.get(eventCount).equals("")){
+                    box.add(descriptionPanel);
+                    box.add(Box.createHorizontalGlue());
+
+                    //Button
+                    JPanel jPanel = new JPanel(new BorderLayout());
+                    jPanel.setBackground(Color.white);
+                    jPanel.add(new JButton("Перейти"),BorderLayout.EAST);
+                    box.add(jPanel);
+                    centralPanel.add(box);
+                    eventCount++;
+                    break;
+                }
             }
-            box.add(descriptionPanel);
-            box.add(Box.createHorizontalGlue());
 
-            //Button
-            JPanel jPanel = new JPanel(new BorderLayout());
-            jPanel.setBackground(Color.white);
-            jPanel.add(new JButton("Перейти"),BorderLayout.EAST);
-            box.add(jPanel);
-
-            centralPanel.add(box);
-            i++;
         }
-
-        JScrollPane scrollPane = new JScrollPane(centralPanel);
-
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        getContentPane().add(scrollPane);
+        return centralPanel;
     }
 
     private int getEventQuantity(ArrayList<String> events) {
