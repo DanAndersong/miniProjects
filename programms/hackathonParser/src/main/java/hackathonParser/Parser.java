@@ -50,7 +50,6 @@ public class Parser {
         while (matcher.find()) {
             dataUrl.add("https://it-events.com" + element.toString().substring(matcher.start(), matcher.end()));
         }
-        dataUrl.forEach(System.out::println);
         return dataUrl;
     }
 

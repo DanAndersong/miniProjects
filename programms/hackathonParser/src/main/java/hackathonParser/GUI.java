@@ -20,11 +20,13 @@ class GUI {
     private JFrame jFrame;
 
     public GUI (ArrayList<String> data, ArrayList<String> dataUrl) {
-        jFrame = new JFrame();
         this.dataUrl = dataUrl;
         this.data = data;
+
+        jFrame = new JFrame();
+        jFrame.setSize(700, 600);
+        jFrame.setLocationRelativeTo(null);
         jFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        jFrame.setSize(800, 600);
 
         JScrollPane scrollPane = new JScrollPane(getEvents());
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
