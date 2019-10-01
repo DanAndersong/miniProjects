@@ -19,42 +19,63 @@ public class GUI extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(800, 600);
 
-        JPanel centralPanel = new JPanel(new GridLayout(events.size()/3,1,0,0));
+        int eventQuantity = getEventQuantity(events);
 
-        for (int i = 0, eventCount = 0; i < events.size()/3; i++) {
+        JPanel centralPanel = new JPanel(new GridLayout(eventQuantity,1,0,0));
+
+        for (int i = 0, eventCount = 0; i < eventQuantity;) {
+            if (events.get(eventCount).equals("")){
+                eventCount++;
+                continue;
+            }
+
             Box box = Box.createHorizontalBox();
             box.setBorder(new EmptyBorder(5,10,5,10));
 
             //Image
             BufferedImage image = null;
             try {
-                image = ImageIO.read(new URL("https://it-events.com/system/events/logos/000/016/563/original/80_227_227_event_5ba4e9dda12e7.png?1568812413"));
+                image = ImageIO.read(new URL(events.get(eventCount++)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
             assert image != null;
-            box.add(new JLabel(new ImageIcon(image.getScaledInstance(100, 100, Image.SCALE_SMOOTH))));
-            box.add(Box.createHorizontalStrut(10));
+            box.add(new JLabel(new ImageIcon(image.getScaledInstance(140, 100, Image.SCALE_SMOOTH))));
+//            box.add(Box.createHorizontalStrut());
 
             //Event
-            JPanel eventPanel = new JPanel(new GridLayout(3,1,0,1));
+            JPanel descriptionPanel = new JPanel(new GridLayout(3,1,0,0));
+            descriptionPanel.setBorder(new EmptyBorder(0,10,0,0));
+            descriptionPanel.setBackground(Color.white);
             for (int j = 0; j < 3; j++) {
-                eventPanel.add(new JLabel(events.get(eventCount++)));
+                descriptionPanel.add(new JLabel(events.get(eventCount++)));
             }
-            box.add(eventPanel);
+            box.add(descriptionPanel);
             box.add(Box.createHorizontalGlue());
 
             //Button
             JPanel jPanel = new JPanel(new BorderLayout());
-            jPanel.add(new JButton("Узнать больше"), BorderLayout.EAST);
+            jPanel.setBackground(Color.white);
+            jPanel.add(new JButton("Перейти"),BorderLayout.EAST);
             box.add(jPanel);
 
             centralPanel.add(box);
+            i++;
         }
 
         JScrollPane scrollPane = new JScrollPane(centralPanel);
 
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         getContentPane().add(scrollPane);
+    }
+
+    private int getEventQuantity(ArrayList<String> events) {
+        int quantity = 0;
+        for (int i = 0; i < events.size(); i++) {
+            if (events.get(i).equals("")) {
+                quantity++;
+            }
+        }
+        return quantity;
     }
 }
