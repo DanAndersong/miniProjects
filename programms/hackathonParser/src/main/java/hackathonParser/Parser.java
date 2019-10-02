@@ -11,7 +11,7 @@ public class Parser {
     public Map<Integer, Map> getData (Map<String, Elements> elements) {
         Map<Integer, Map> data = new HashMap<>();
         String patternLogo = "(?<=background-image: url\\().+(?=\\))";
-        String patternAbout = "(?<=href=\").+(?=\")";
+        String patternAbout = "(?<=href=\").+(?=\"\\s)";
 
         int otherCount = 0;
         for (int i = 0; i < elements.get("titles").size(); i++) {
