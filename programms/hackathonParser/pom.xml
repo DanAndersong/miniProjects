@@ -4,7 +4,7 @@
   <groupId>hackathonParser</groupId>
   <artifactId>hackathonParser</artifactId>
   <packaging>jar</packaging>
-  <version>1</version>
+  <version>1.1</version>
   <name>hackathonParser</name>
   <url>http://maven.apache.org</url>
 
