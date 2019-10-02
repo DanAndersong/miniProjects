@@ -10,17 +10,15 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 class GUI {
-    private static int dataUrlCount = 0;
-    private ArrayList<String> dataUrl;
-    private ArrayList<String> data;
+    private Map<Integer, Map> data;
     private JFrame jFrame;
 
-    public GUI (ArrayList<String> data, ArrayList<String> dataUrl) {
-        this.dataUrl = dataUrl;
+    public GUI (Map<Integer, Map> data) {
         this.data = data;
 
         jFrame = new JFrame();
