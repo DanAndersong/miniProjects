@@ -3,6 +3,10 @@ package hackathonParser;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jsoup.Jsoup;
 
 public class App
@@ -12,16 +16,12 @@ public class App
                 .userAgent("Chrome/4.0.249.0 Safari/532.5")
                 .referrer("http://www.google.com")
                 .get();
-
-        Elements[] elements = {
-                doc.select(".event-list-item__image"), //First only pictures
-                doc.select(".event-list-item__title"), //Second only title
-                doc.select(".event-list-item__type"),  //costs
-                doc.select(".event-list-item__info"),  //info
-        };
-
-        Parser parser = new Parser();
-        GUI gui = new GUI(parser.parseData(elements), parser.parseUrl(elements[1]));
+        Map<String, Elements> elements = new HashMap<>();
+        elements.put("logos",  doc.select(".event-list-item__image"));
+        elements.put("titles", doc.select(".event-list-item__title"));
+        elements.put("prices", doc.select(".event-list-item__type" ));
+        elements.put("other",   doc.select(".event-list-item__info" ));
+        GUI gui = new GUI(new Parser().getData(elements));
         gui.getjFrame().setVisible(true);
     }
 }

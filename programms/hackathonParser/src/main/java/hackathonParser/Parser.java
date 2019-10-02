@@ -2,63 +2,65 @@ package hackathonParser;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Parser {
+    public Map<Integer, Map> getData (Map<String, Elements> elements) {
+        Map<Integer, Map> data = new HashMap<>();
+        String patternLogo = "(?<=background-image: url\\().+(?=\\))";
+        String patternAbout = "(?<=href=\").+(?=\")";
 
-    public ArrayList<String> parseData (Elements[] elements) {
-        ArrayList<String> data = new ArrayList<>();
-        StringBuilder stringBuilder;
+        int otherCount = 0;
+        for (int i = 0; i < elements.get("titles").size(); i++) {
+            Map<String, String> dataEvent = new HashMap<>();
 
-        for (int i = 0, countInfo = 0; i < elements[1].size(); i++) {
-            data.add(parseLogoUrl(elements[0].get(i)));
-            data.add(String.format("%s", elements[1].get(i).text()));
-
-            if (elements[2].get(i).text().split("/")[1].contains("Бесплатное")) {
-                data.add("Мероприятие бесплатное");
-            } else {
-                data.add(String.format("Цена %s", elements[2].get(i).text()));
-            }
-
-            stringBuilder = new StringBuilder();
-            for (int j = countInfo; j < elements[3].size(); j++) {
-                /*
-                If next element in info it's date - break.
-                Next iteration begin in that place.
-                */
-                if (j > countInfo) {
-                    if (isNumeric(elements[3].get(j).text().charAt(0))) {
-                        countInfo = j;
-                        break;
+            for (Map.Entry<String, Elements> pair : elements.entrySet()) {
+                String key = pair.getKey();
+                Elements value = pair.getValue();
+                if (key.equals("logos")) {
+                    dataEvent.put("logo", parseUrl(value.get(i), patternLogo));
+                    dataEvent.put("url", parseUrl(value.get(i), patternAbout));
+                }
+                if (key.equals("titles")) {
+                    dataEvent.put("title", value.get(i).text());
+                }
+                if (key.equals("prices")) {
+                    String cost = value.get(i).text().toLowerCase();
+                    if (cost.contains("бесплатное") || cost.contains("free")) {
+                        dataEvent.put("cost", "Участие бесплатно");
+                    } else {
+                        dataEvent.put("cost", String.format("Цена: %s", cost));
                     }
                 }
-                stringBuilder.append(String.format("%s, ",elements[3].get(j).text()));
+                if (key.equals("other")) {
+                    StringBuilder stringBuilder = new StringBuilder();
+
+                    for (int j = otherCount; j < value.size(); j++) {
+                        if (isNumeric(value.get(j).text().charAt(0)) && j > otherCount) {
+                            otherCount = j;
+                            break;
+                        } else {
+                            stringBuilder.append(String.format("%s  ", value.get(j).text()));
+                        }
+                    }
+                    dataEvent.put("other", stringBuilder.toString());
+                }
             }
-            data.add(!stringBuilder.toString().equals("") ? stringBuilder.toString().substring(0, stringBuilder.length()-2) : "");
-            data.add("");
+            data.put(i, dataEvent);
         }
         return data;
     }
 
-    public ArrayList<String> parseUrl(Elements element) {
-        ArrayList<String> dataUrl = new ArrayList<>();
-        Pattern pattern = Pattern.compile("(?<=href=\").+(?=\")");
-        Matcher matcher = pattern.matcher(element.toString());
+    private String parseUrl(Element element, String pattern) {
+        Pattern p = Pattern.compile(pattern);
+        Matcher m = p.matcher(element.toString());
 
-        while (matcher.find()) {
-            dataUrl.add("https://it-events.com" + element.toString().substring(matcher.start(), matcher.end()));
-        }
-        return dataUrl;
-    }
-
-    public String parseLogoUrl(Element element) {
-        Pattern pattern = Pattern.compile("(?<=background-image: url\\().+(?=\\))");
-        Matcher matcher = pattern.matcher(element.toString());
         String url = null;
-        while (matcher.find()) {
-            url = "https://it-events.com" + element.toString().substring(matcher.start(), matcher.end());
+        while (m.find()) {
+            url = "https://it-events.com" + element.toString().substring(m.start(), m.end());
         }
         return url;
     }
