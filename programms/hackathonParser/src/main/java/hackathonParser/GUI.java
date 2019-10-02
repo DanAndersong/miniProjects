@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Map;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
@@ -20,76 +19,58 @@ class GUI {
 
     public GUI (Map<Integer, Map> data) {
         this.data = data;
-
         jFrame = new JFrame();
-        jFrame.setSize(700, 600);
         jFrame.setLocationRelativeTo(null);
         jFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         JScrollPane scrollPane = new JScrollPane(getEvents());
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         jFrame.getContentPane().add(scrollPane);
+        jFrame.pack();
     }
 
     private Component getEvents() {
-        int eventQuantity = getEventQuantity(data);
-        JPanel centralPanel = new JPanel(new GridLayout(eventQuantity,1,0,0));
+        JPanel centralPanel = new JPanel(new GridLayout(data.size(),1,0,0));
 
-        for (int i = 0, eventCount = 0; i < eventQuantity; i++) {
+        for (Map.Entry<Integer, Map> eventPair : data.entrySet()){
+            Map<String,String> value = eventPair.getValue();
             Box box = Box.createHorizontalBox();
             box.setBorder(new EmptyBorder(5,10,5, 0));
 
-            //Image
-            BufferedImage image = null;
+            //Logo
+            BufferedImage logo= null;
             try {
-                image = ImageIO.read(new URL(data.get(eventCount++)));
+                logo = ImageIO.read(new URL(value.get("logo")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            assert image != null;
-            box.add(new JLabel(new ImageIcon(image.getScaledInstance(140, 100, Image.SCALE_SMOOTH))));
+            assert logo != null;
+            box.add(new JLabel(new ImageIcon(logo.getScaledInstance(140, 100, Image.SCALE_SMOOTH))));
 
-            //Event
+            //description
             JPanel descriptionPanel = new JPanel(new GridLayout(3,1,0,0));
             descriptionPanel.setBorder(new EmptyBorder(0,10,0,0));
             descriptionPanel.setBackground(Color.white);
+            descriptionPanel.add(new JLabel(value.get("title")));
+            descriptionPanel.add(new JLabel(value.get("cost")));
+            descriptionPanel.add(new JLabel(value.get("other")));
+            box.add(descriptionPanel);
 
-            while (true) {
-                descriptionPanel.add(new JLabel(data.get(eventCount++)));
-                if (data.get(eventCount).equals("")){
-                    box.add(descriptionPanel);
-                    box.add(Box.createHorizontalGlue());
-
-                    //Button
-                    JPanel jPanel = new JPanel(new BorderLayout());
-                    jPanel.setBackground(Color.white);
-                    JButton jButton = new JButton("Перейти");
-                    jButton.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent arg0) {
-                            openWebPage(dataUrl.get(dataUrlCount++));
-                        }
-                    });
-                    jPanel.add(jButton ,BorderLayout.EAST);
-                    box.add(jPanel);
-                    centralPanel.add(box);
-
-                    eventCount++;
-                    break;
+            //Button
+            JPanel jPanel = new JPanel(new BorderLayout());
+            jPanel.setBackground(Color.white);
+            JButton jButton = new JButton("Перейти");
+            jButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent arg0) {
+                    openWebPage(value.get("url"));
                 }
-            }
+            });
+            jPanel.add(jButton ,BorderLayout.EAST);
+            box.add(jPanel);
+                    centralPanel.add(box);
         }
         return centralPanel;
-    }
-
-    private int getEventQuantity(ArrayList<String> events) {
-        int quantity = 0;
-        for (int i = 0; i < events.size(); i++) {
-            if (events.get(i).equals("")) {
-                quantity++;
-            }
-        }
-        return quantity;
     }
 
     private static void openWebPage(String urlString) {
