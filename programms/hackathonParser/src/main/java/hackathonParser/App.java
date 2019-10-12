@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.jsoup.Jsoup;
 
+
 public class App
 {
     public static void main( String[] args ) throws IOException {
@@ -15,6 +16,7 @@ public class App
                 .userAgent("Chrome/4.0.249.0 Safari/532.5")
                 .referrer("http://www.google.com")
                 .get();
+
         Map<String, Elements> elements = new HashMap<>();
         elements.put("logos",  doc.select(".event-list-item__image"));
         elements.put("titles", doc.select(".event-list-item__title"));
