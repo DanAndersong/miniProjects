@@ -1,13 +1,16 @@
-package peopleDataBase;
+package DriverLicensesDataBase;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class App {
 
-    public static final  String DB_URL = "jdbc:h2://Users/user/github/miniProjects/programms/peopleDataBase/src/main/java/peopleDataBase/";
-    public static final  String DB_Driver = "org.h2.Driver";
+    public static final String DB_URL = "jdbc:h2://Users/user/github/miniProjects/programms/DriverLicenses/src/main/java/DriverLicensesDataBase/db/licenses";
+    public static final String DB_Driver = "org.h2.Driver";
 
-    public static void main( String[] args ) {
+    public static void main( String[] args )
+    {
         try {
             Class.forName(DB_Driver);
             Connection connection = DriverManager.getConnection(DB_URL);

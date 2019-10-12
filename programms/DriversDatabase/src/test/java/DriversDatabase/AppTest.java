@@ -1,4 +1,4 @@
-package peopleDataBase;
+package DriversDatabase;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
