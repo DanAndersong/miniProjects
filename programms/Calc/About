@@ -1,0 +1,7 @@
+I create this project only for training. It's working on local machine and calculate math. expression in URL string.
+Params:
+-num1
+-num2
+-oper(del, mult, plus, minus)
+
+Working on Tomcat server
