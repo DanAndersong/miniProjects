@@ -2,12 +2,15 @@ package logic;
 
 public class Calculator {
     private String[] opers = {"plus","minus","del","mult"};
+
+
+    // 500/h
+
     public String calculate (String oper, String num1, String num2) {
         int result = 0;
 
-        if (isNum(num1) && isNum(num2)){
-            int a;
-            int b;
+        if (isNums(num1, num2)){
+            int a, b;
             try {
                 a = Integer.parseInt(num1);
                 b = Integer.parseInt(num2);
@@ -34,13 +37,18 @@ public class Calculator {
         return String.valueOf(result);
     }
 
-    private boolean isNum (String s) {
-        try {
-            double d = Double.parseDouble(s);
-        } catch (Exception e) {
-            return false;
+    private boolean isNums (String ... s) {
+        int nums = 0;
+
+        for (int i = 0; i < s.length; i++) {
+            try {
+                double d = Double.parseDouble(s[i]);
+                nums++;
+            } catch (Exception e) {
+                return false;
+            }
         }
-        return true;
+        return nums == s.length;
     }
 
     private boolean isOper (String s) {
