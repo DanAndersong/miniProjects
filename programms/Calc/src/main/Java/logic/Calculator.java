@@ -28,12 +28,13 @@ public class Calculator {
                     result = a + b;
                 if (oper.equals(opers[1]))
                     result = a - b;
-                if (oper.equals(opers[2]))
-                    result = a / b;
-                if (oper.equals(opers[3]))
+                if (oper.equals(opers[2])) {
                     if (b == 0) {
                         return "ERROR, Division by zero";
                     }
+                    result = a / b;
+                }
+                if (oper.equals(opers[3]))
                     result = a * b;
             } else {
                 return "Operator error";
@@ -42,17 +43,17 @@ public class Calculator {
             return  "Values contains letters";
         }
 
-        return String.valueOf(result);
+        return String.format("Result = %s." + result);
     }
 
     private boolean checkOnStartPage (String oper, String ... nums) {
         int count = 0;
 
-        if (oper.equals("")){
+        if (oper == null){
             count++;
         }
         for (int i = 0; i < nums.length; i++) {
-            if (nums[i].equals("")){
+            if (nums[i] == null){
                 count++;
             }
         }
