@@ -8,12 +8,19 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class CalcServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String num1 = req.getParameter("num1");
         String num2 = req.getParameter("num2");
         String oper = req.getParameter("oper");
-        resp.getWriter().println("Result = " + new Calculator().calculate(oper, num1, num2));
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        resp.getWriter().println(new Calculator().calculate(oper, num1, num2));
     }
 
     @Override
