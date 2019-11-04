@@ -1,13 +1,17 @@
 package logic;
 
 public class Calculator {
-    private String[] opers = {"plus","minus","del","mult"};
+    private String[] opers = {"plus","minus","div","mult"};
 
 
     // 500/h
 
     public String calculate (String oper, String num1, String num2) {
         int result = 0;
+
+        if (checkOnStartPage(oper, num1, num2)) {
+            return "Enter the data";
+        };
 
         if (isNums(num1, num2)){
             int a, b;
@@ -27,6 +31,9 @@ public class Calculator {
                 if (oper.equals(opers[2]))
                     result = a / b;
                 if (oper.equals(opers[3]))
+                    if (b == 0) {
+                        return "ERROR, Division by zero";
+                    }
                     result = a * b;
             } else {
                 return "Operator error";
@@ -34,7 +41,22 @@ public class Calculator {
         }else {
             return  "Values contains letters";
         }
+
         return String.valueOf(result);
+    }
+
+    private boolean checkOnStartPage (String oper, String ... nums) {
+        int count = 0;
+
+        if (oper.equals("")){
+            count++;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i].equals("")){
+                count++;
+            }
+        }
+        return count != 0;
     }
 
     private boolean isNums (String ... s) {
