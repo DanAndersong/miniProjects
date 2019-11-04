@@ -43,7 +43,7 @@ public class Calculator {
             return  "Values contains letters";
         }
 
-        return String.format("Result = %s." + result);
+        return "Result = %s." + result;
     }
 
     private boolean checkOnStartPage (String oper, String ... nums) {
